@@ -1,21 +1,13 @@
--- List of globals for Mikk's FindGlobals script.
---
--- WoW API functions:
--- GLOBALS: GetCVar, SetCVar, Sound_GameSystem_GetNumOutputDrivers, Sound_GameSystem_GetOutputDriverNameByIndex, Sound_GameSystem_RestartSoundSystem
---
--- UIDropDownMenu functions:
--- GLOBALS: ToggleDropDownMenu, UIDropDownMenu_AddButton, UIDropDownMenu_CreateInfo, UIDropDownMenu_GetSelectedValue, UIDropDownMenu_Initialize, UIDropDownMenu_SetSelectedValue, UIDropDownMenu_SetWidth
-
 local CVAR = "Sound_OutputDriverIndex"
 
-local tonumber = tonumber
+local DriverIndexSetting
 
 local function GetDriverIndex()
-	return tonumber(GetCVar(CVAR))
+	return DriverIndexSetting:GetValue()
 end
 
 local function SetDriverIndex(index)
-	SetCVar(CVAR, index)
+	DriverIndexSetting:SetValue(index);
 	Sound_GameSystem_RestartSoundSystem()
 end
 
@@ -39,11 +31,11 @@ local function DropDown_Init(self)
 	local selectedDriverIndex = UIDropDownMenu_GetSelectedValue(self)
 	local numDrivers = Sound_GameSystem_GetNumOutputDrivers()
 	local info = UIDropDownMenu_CreateInfo()
-	
+
 	for driverIndex = 0, numDrivers - 1 do
 		info.text = Sound_GameSystem_GetOutputDriverNameByIndex(driverIndex)
 		info.value = driverIndex
-		info.checked = selectedDriverIndex and driverIndex == selectedDriverIndex		
+		info.checked = selectedDriverIndex and driverIndex == selectedDriverIndex
 		info.func = DropDownButton_OnClick
 
 		UIDropDownMenu_AddButton(info)
@@ -58,7 +50,7 @@ UIDropDownMenu_Initialize(DropDown, DropDown_Init, "MENU")
 
 local DataObj = LibStub("LibDataBroker-1.1"):NewDataObject("Broker_AudioHardware", {
 	type = "data source",
-	text = Sound_GameSystem_GetOutputDriverNameByIndex(GetDriverIndex()),
+	text = nil,
 	icon = [[Interface\ICONS\INV_Gizmo_GoblinBoomBox_01]]
 })
 
@@ -67,13 +59,20 @@ function DataObj:OnClick()
 	ToggleDropDownMenu(nil, nil, DropDown, self, 0, -5)
 end
 
--- This hook won't for AddOns loaded before this one that create a local reference to SetCVar,
--- but there probably aren't many that create a local reference AND change the value of the "Sound_OutputDriverIndex" CVar.
---
--- Using the CVAR_UPDATE event won't work, because the Blizzard audio options menu doesn't pass a third argument to SetCVar to trigger the event
--- and any AddOn that does could pass anything it wanted, making it nearly impossible to detect which CVar is being changed.
-hooksecurefunc("SetCVar", function(cvar, value, scriptArg)
-	if cvar == CVAR then
-		DataObj.text = Sound_GameSystem_GetOutputDriverNameByIndex(value)
+function DataObj:Refresh()
+	local driverIndex = GetDriverIndex()
+	if driverIndex then
+		DataObj.text = Sound_GameSystem_GetOutputDriverNameByIndex(driverIndex)
 	end
+end
+
+EventRegistry:RegisterFrameEventAndCallback("SETTINGS_LOADED", function()
+	DriverIndexSetting = Settings.GetSetting(CVAR)
+	DataObj:Refresh()
 end)
+
+local function DriverSettingChangedCallback()
+	DataObj:Refresh()
+end
+
+Settings.SetOnValueChangedCallback(CVAR, DriverSettingChangedCallback, DataObj);
