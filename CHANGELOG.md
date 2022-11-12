@@ -1,3 +1,8 @@
+## 1.05
+- Bump TOC Interface version to 10.0.0
+- Update to use new Settings system
+- Create GitHub Actions workflow for the BigWigs packager script
+
 ## 1.04
 - Bump TOC Interface version to 8.0
 - Add .travis.yml file and TOC properties for the BigWigs packager script
