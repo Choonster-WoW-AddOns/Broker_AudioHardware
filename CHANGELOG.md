@@ -1,3 +1,6 @@
+## 1.06
+- Bump TOC Interface version to 10.0.2
+
 ## 1.05
 - Bump TOC Interface version to 10.0.0
 - Update to use new Settings system
