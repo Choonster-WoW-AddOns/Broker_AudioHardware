@@ -7,6 +7,7 @@
 ## Version: @project-version@
 ## Notes: Allows you to quickly change the audio output driver used by the game.
 ## X-License: MIT License
+## SavedVariables: BROKER_AUDIO_HARDWARE_FAVOURITES
 
 ## X-Curse-Project-ID: 71981
 ## X-WoWI-ID: 22697

@@ -1,0 +1,3 @@
+<Bindings>
+	<Binding name="CLICK BrokerAudioHardwareCycleToNextFavouriteButton:LeftButton" category="BROKER_AUDIO_HARDWARE" />
+</Bindings>
