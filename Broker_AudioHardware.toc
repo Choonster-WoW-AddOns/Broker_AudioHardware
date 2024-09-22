@@ -1,8 +1,8 @@
 ## Title: Broker: Audio Hardware
-## Interface: 100002
-## Interface-Classic: 11403
+## Interface: 110002
+## Interface-Classic: 11502
 ## Interface-BCC: 20504
-## Interface-Wrath: 30400
+## Interface-Wrath: 30403
 ## Author: Choonster
 ## Version: @project-version@
 ## Notes: Allows you to quickly change the audio output driver used by the game.
