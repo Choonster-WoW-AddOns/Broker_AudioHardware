@@ -1,3 +1,10 @@
+## 1.07
+- Add favourites list and cycle key binding for Retail
+- Use MenuUtil for dropdown menu in Retail
+- Bump TOC Interface version to 11.0.2
+- Bump Classic TOC Interface version to 1.15.2
+- Bump WotLK Classic TOC Interface version to 3.4.3
+
 ## 1.06
 - Bump TOC Interface version to 10.0.2
 
