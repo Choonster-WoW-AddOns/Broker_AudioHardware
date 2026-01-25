@@ -1,3 +1,6 @@
+## 1.08
+- Bump TOC Interface version for Retail, Classic, TBC Classic and add MoP Classic
+
 ## 1.07
 - Add favourites list and cycle key binding for Retail
 - Use MenuUtil for dropdown menu in Retail
